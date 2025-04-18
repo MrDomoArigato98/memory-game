@@ -22,16 +22,19 @@ function Fetch() {
         {   
         id: name of champion,
         name: name of champion,
-        image: image of champion
+        image: image of champion,
+        clicked: boolean
         },
      ]
-
-    */
+*/
   //Use this to store the 9 cards list
 
   const [cards, setCards] = useState([]);
-  // https://ddragon.leagueoflegends.com/cdn/15.8.1/data/en_US/champion.json
-  // https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
+  /* 
+https://ddragon.leagueoflegends.com/cdn/15.8.1/data/en_US/champion.json
+https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
+*/
+
   useEffect(() => {
     fetch(
       "https://ddragon.leagueoflegends.com/cdn/15.8.1/data/en_US/champion.json"
@@ -51,15 +54,14 @@ function Fetch() {
     return champions.sort(() => 0.5 - Math.random());
   }
 
-  function testOnClick(e, id) {
-    setCards((prevCards) => {
-      const updatedCards = prevCards.map((card) =>
-        card.id === id ? { ...card, clicked: true } : card
-      );
-      console.log(updatedCards); // ← Safe here
-      return updatedCards;
-    });
+  function setClicked(e) {
+    setCards((prevCards) =>
+      prevCards.map((card) =>
+        card.id === e ? { ...card, clicked: true } : card
+      )
+    );
   }
+
   return (
     <>
       <div className="card-grid">
@@ -74,7 +76,7 @@ function Fetch() {
               name={champ.name}
               width={150}
               loading="lazy"
-              onClick={(e) => testOnClick(e.target, champ.id)}
+              onClick={(e) => setClicked(e.target.name)}
             />
           </div>
         ))}
