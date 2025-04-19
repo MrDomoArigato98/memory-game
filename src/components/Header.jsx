@@ -1,8 +1,10 @@
 function Header({ score, bestScore }) {
   return (
     <>
-      <p>Best score: {bestScore}</p>
-      <p>Score is {score}</p>
+      <div className="header">
+        <p>Highest score: {bestScore}</p>
+        <p>Current score: {score}</p>
+      </div>
     </>
   );
 }

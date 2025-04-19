@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { getRandomNine, shuffleArray } from "./utils";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 function Fetch({ incrementScore, resetScore }) {
   const [allCards, setAllCards] = useState([]);
   const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   /* 
 https://ddragon.leagueoflegends.com/cdn/15.8.1/data/en_US/champion.json
@@ -11,6 +14,7 @@ https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
 */
 
   useEffect(() => {
+    setLoading(true);
     fetch(
       "https://ddragon.leagueoflegends.com/cdn/15.8.1/data/en_US/champion.json"
     )
@@ -22,6 +26,12 @@ https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
         setAllCards(Object.values(data.data));
         // Here I need a way to extract the images from 9 random champions
         setCards(getRandomNine(Object.values(data.data)));
+        setLoading(false);
+      })
+      .catch((err) => {
+        alert("Please reload the page");
+        console.error("Fetch Error: ", err);
+        setLoading(false);
       });
   }, []);
   // 'e' is equal to the e.target.name (which is the character name)
@@ -48,6 +58,7 @@ https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
   function newCardsOnClick() {
     setCards(getRandomNine(allCards));
   }
+
   function resetClicked() {
     setCards((prevCards) => {
       return shuffleArray(
@@ -58,23 +69,26 @@ https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
 
   return (
     <>
-      <div className="card-grid">
-        {/* This works but pretty damn slow */}
-        {cards.map((champ) => (
-          <div key={champ.id} className="card">
-            <img
-              key={champ.id}
-              src={champ.url}
-              alt={"Image of " + champ.id}
-              value={champ.id}
-              name={champ.name}
-              width={150}
-              loading="lazy"
-              onClick={(e) => setClicked(e.target.name)}
-            />
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <div className="loading">Loading . . .</div>
+      ) : (
+        <div className="card-grid">
+          {cards.map((champ) => (
+            <div key={champ.id} className="">
+              <LazyLoadImage
+                className="card"
+                key={champ.id}
+                src={champ.url}
+                alt={"Image of " + champ.id}
+                value={champ.id}
+                name={champ.name}
+                effect="blur"
+                onClick={(e) => setClicked(e.target.name)}
+              />
+            </div>
+          ))}
+        </div>
+      )}
       <br />
       <button onClick={() => newCardsOnClick()}>New champions!</button>
     </>
