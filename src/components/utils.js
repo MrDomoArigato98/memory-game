@@ -1,7 +1,7 @@
-function getRandomNine(cards) {
+function getRandom(cards, cardNumber) {
   const shuffledCards = shuffleArray(cards);
   let chosenCards = [];
-  for (let index = 0; index < 12; index++) {
+  for (let index = 0; index < cardNumber; index++) {
     chosenCards.push({
       id: shuffledCards[index].id,
       name: shuffledCards[index].id,
@@ -23,4 +23,4 @@ function shuffleArray(array) {
   return shuffled;
 }
 
-export { shuffleArray, getRandomNine };
+export { shuffleArray, getRandom };

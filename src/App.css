@@ -13,15 +13,28 @@ body {
   display: flex;
   justify-content: space-between;
 }
-.card-grid {
+
+.card-grid-16 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 0.75em;
+}
+
+.card-grid-12 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   gap: 1em;
 }
 
+.card-grid-9 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 1em;
+}
 button {
-  border: 1px solid grey;
   box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
 .card {
@@ -40,4 +53,3 @@ button {
   font-size: 1.5rem;
   padding: 2rem;
 }
-
