@@ -1,44 +1,7 @@
 import { useState, useEffect } from "react";
+import { getRandomNine, shuffleArray } from "./utils";
 
-function getRandomNine(cards) {
-  const shuffledCards = cards.sort(() => 0.5 - Math.random());
-  let chosenCards = [];
-  for (let index = 0; index < 12; index++) {
-    chosenCards.push({
-      id: shuffledCards[index].id,
-      name: shuffledCards[index].id,
-      url: `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${shuffledCards[index].id}_0.jpg`,
-      clicked: false,
-    });
-  }
-  console.log(chosenCards);
-  return chosenCards;
-}
-
-function shuffleArray(array) {
-  const shuffled = [...array]; // copy to avoid mutating original
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    // Swap elements i and j
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
-
-function Fetch() {
-  /*
-    cards
-    [
-        {   
-        id: name of champion,
-        name: name of champion,
-        image: image of champion,
-        clicked: boolean
-        },
-     ]
-*/
-  //Use this to store the 9 cards list
-
+function Fetch({ incrementScore, resetScore }) {
   const [cards, setCards] = useState([]);
   /* 
 https://ddragon.leagueoflegends.com/cdn/15.8.1/data/en_US/champion.json
@@ -60,14 +23,19 @@ https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
       });
   }, []);
 
-  function shuffleOnClick(champions) {
-    return champions.sort(() => 0.5 - Math.random());
-  }
-
-  function setClicked(e, id) {
+  // 'e' is equal to the e.target.name (which is the character name)
+  function setClicked(e) {
     setCards((prevCards) => {
+      const clickedCard = prevCards.find((card) => card.id === e);
+      if (clickedCard.clicked) {
+        console.log("Game Over! You already clicked that.");
+        resetScore()
+        return prevCards;
+      }
+
+      incrementScore()
       const updatedCards = prevCards.map((card) =>
-        card.id === id ? { ...card, clicked: true } : card
+        card.id === e ? { ...card, clicked: true } : card
       );
 
       // Simple shuffle (for now)

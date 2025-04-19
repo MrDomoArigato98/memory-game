@@ -10,14 +10,19 @@ function App() {
 
   function incrementScore() {
     setScore(score + 1);
-    if (score > bestScore) {
-      setBestSCore(score);
+    if (score >= bestScore) {
+      setBestSCore(score + 1);
     }
+  }
+
+  function resetScore() {
+    setScore(0);
   }
 
   return (
     <>
-      <Fetch score={score} incrementScore={incrementScore} />
+      <Header score={score} bestScore={bestScore} />
+      <Fetch incrementScore={incrementScore} resetScore={resetScore} />
     </>
   );
 }
