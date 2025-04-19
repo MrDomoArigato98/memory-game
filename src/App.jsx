@@ -7,6 +7,7 @@ import Header from "./components/Header";
 function App() {
   const [score, setScore] = useState(0);
   const [bestScore, setBestSCore] = useState(0);
+  const [open, setOpen] = useState(false);
 
   function incrementScore() {
     setScore(score + 1);
@@ -16,12 +17,16 @@ function App() {
   }
 
   function resetScore() {
+    setOpen(true);
     setScore(0);
   }
+
+  function handleCloseDialog() {}
 
   return (
     <>
       <Header score={score} bestScore={bestScore} />
+
       <Fetch incrementScore={incrementScore} resetScore={resetScore} />
     </>
   );

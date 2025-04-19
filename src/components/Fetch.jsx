@@ -7,10 +7,9 @@ function Fetch({ incrementScore, resetScore }) {
   const [allCards, setAllCards] = useState([]);
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
-
   /* 
 https://ddragon.leagueoflegends.com/cdn/15.8.1/data/en_US/champion.json
-https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
+https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/CHA.png
 */
 
   useEffect(() => {
@@ -72,6 +71,7 @@ https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
       {loading ? (
         <div className="loading">Loading . . .</div>
       ) : (
+        
         <div className="card-grid">
           {cards.map((champ) => (
             <div key={champ.id} className="">
