@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 function Header({ score, bestScore }) {
   return (
     <>

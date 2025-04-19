@@ -5,12 +5,16 @@
   text-align: center;
 }
 
-.card-grid{
+.card-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   gap: 1em;
 }
-.card{
 
+button {
+  border: 1px solid grey;
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+.card {
 }

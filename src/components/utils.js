@@ -1,5 +1,5 @@
 function getRandomNine(cards) {
-  const shuffledCards = cards.sort(() => 0.5 - Math.random());
+  const shuffledCards = shuffleArray(cards);
   let chosenCards = [];
   for (let index = 0; index < 12; index++) {
     chosenCards.push({
@@ -23,4 +23,4 @@ function shuffleArray(array) {
   return shuffled;
 }
 
-export {shuffleArray, getRandomNine}
+export { shuffleArray, getRandomNine };

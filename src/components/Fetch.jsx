@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { getRandomNine, shuffleArray } from "./utils";
 
 function Fetch({ incrementScore, resetScore }) {
+  const [allCards, setAllCards] = useState([]);
   const [cards, setCards] = useState([]);
+
   /* 
 https://ddragon.leagueoflegends.com/cdn/15.8.1/data/en_US/champion.json
 https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
@@ -17,32 +19,40 @@ https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
       })
       .then((data) => {
         // Just get the list of champions. data is an object within data.
-        console.log(Object.values(data.data).sort(() => 0.5 - Math.random()));
+        setAllCards(Object.values(data.data));
         // Here I need a way to extract the images from 9 random champions
         setCards(getRandomNine(Object.values(data.data)));
       });
   }, []);
-
   // 'e' is equal to the e.target.name (which is the character name)
   function setClicked(e) {
-    setCards((prevCards) => {
-      const clickedCard = prevCards.find((card) => card.id === e);
-      if (clickedCard.clicked) {
-        console.log("Game Over! You already clicked that.");
-        resetScore()
-        return prevCards;
-      }
+    const clickedCard = cards.find((card) => card.id === e);
+    if (clickedCard.clicked) {
+      console.log("Game Over! You already clicked that.");
+      resetScore();
+      resetClicked();
+      return;
+    }
 
-      incrementScore()
+    setCards((prevCards) => {
       const updatedCards = prevCards.map((card) =>
         card.id === e ? { ...card, clicked: true } : card
       );
 
-      // Simple shuffle (for now)
-      const shuffled = shuffleArray(updatedCards);
-
       console.log("Clicked on " + e);
-      return shuffled;
+      return shuffleArray(updatedCards);
+    });
+    incrementScore();
+  }
+
+  function newCardsOnClick() {
+    setCards(getRandomNine(allCards));
+  }
+  function resetClicked() {
+    setCards((prevCards) => {
+      return shuffleArray(
+        prevCards.map((card) => ({ ...card, clicked: false }))
+      );
     });
   }
 
@@ -65,6 +75,8 @@ https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
           </div>
         ))}
       </div>
+      <br />
+      <button onClick={() => newCardsOnClick()}>New champions!</button>
     </>
   );
 }
