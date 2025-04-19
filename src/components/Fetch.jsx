@@ -1,18 +1,28 @@
 import { useState, useEffect } from "react";
 
-function getRandomNine(champions) {
-  const shuffledChampions = champions.sort(() => 0.5 - Math.random());
+function getRandomNine(cards) {
+  const shuffledCards = cards.sort(() => 0.5 - Math.random());
   let chosenCards = [];
   for (let index = 0; index < 12; index++) {
     chosenCards.push({
-      id: shuffledChampions[index].id,
-      name: shuffledChampions[index].id,
-      url: `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${shuffledChampions[index].id}_0.jpg`,
+      id: shuffledCards[index].id,
+      name: shuffledCards[index].id,
+      url: `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${shuffledCards[index].id}_0.jpg`,
       clicked: false,
     });
   }
   console.log(chosenCards);
   return chosenCards;
+}
+
+function shuffleArray(array) {
+  const shuffled = [...array]; // copy to avoid mutating original
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    // Swap elements i and j
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 }
 
 function Fetch() {
@@ -54,12 +64,18 @@ https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/Aatrox.png
     return champions.sort(() => 0.5 - Math.random());
   }
 
-  function setClicked(e) {
-    setCards((prevCards) =>
-      prevCards.map((card) =>
-        card.id === e ? { ...card, clicked: true } : card
-      )
-    );
+  function setClicked(e, id) {
+    setCards((prevCards) => {
+      const updatedCards = prevCards.map((card) =>
+        card.id === id ? { ...card, clicked: true } : card
+      );
+
+      // Simple shuffle (for now)
+      const shuffled = shuffleArray(updatedCards);
+
+      console.log("Clicked on " + e);
+      return shuffled;
+    });
   }
 
   return (
