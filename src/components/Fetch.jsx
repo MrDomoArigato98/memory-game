@@ -25,7 +25,6 @@ https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/CHA.png
         .then((data) => {
           // Just get the list of champions. data is an object within data.
           setAllCards(Object.values(data.data));
-          // Here I need a way to extract the images from 9 random champions
         })
         .catch((err) => {
           alert("Please reload the page");
