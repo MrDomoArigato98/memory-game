@@ -15,25 +15,28 @@ https://ddragon.leagueoflegends.com/cdn/15.8.1/img/champion/CHA.png
   useEffect(() => {
     setLoading(true);
 
-    fetch(
-      "https://ddragon.leagueoflegends.com/cdn/15.8.1/data/en_US/champion.json"
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        // Just get the list of champions. data is an object within data.
-        setAllCards(Object.values(data.data));
-        // Here I need a way to extract the images from 9 random champions
-        setCards(getRandom(Object.values(data.data), cardNumber));
-        setLoading(false);
-      })
-      .catch((err) => {
-        alert("Please reload the page");
-        console.error("Fetch Error: ", err);
-        setLoading(false);
-      });
-  }, [cardNumber]);
+    if (allCards.length === 0) {
+      fetch(
+        "https://ddragon.leagueoflegends.com/cdn/15.8.1/data/en_US/champion.json"
+      )
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          // Just get the list of champions. data is an object within data.
+          setAllCards(Object.values(data.data));
+          // Here I need a way to extract the images from 9 random champions
+        })
+        .catch((err) => {
+          alert("Please reload the page");
+          console.error("Fetch Error: ", err);
+          setLoading(false);
+        });
+    } else {
+      setCards(getRandom(allCards, cardNumber));
+      setLoading(false);
+    }
+  }, [cardNumber, allCards]);
 
   // 'e' is equal to the e.target.name (which is the character name)
   function setClicked(e) {
